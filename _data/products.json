@@ -1,0 +1,42 @@
+[
+  {
+    "_id": "5d725a4a7b292f5f8ceff789",
+    "title": "Croquettes pour chat",
+    "description": "Ces croquettes pour chat sont les meilleures du marché",
+    "price": 30,
+    "weight": "1",
+    "category": "food"
+  },
+  {
+    "_id": "5d725c84c4ded7bcb480eaa0",
+    "title": "Jouet pour chat",
+    "description": "Ce jouet pour chat sont les meilleures du marché",
+    "price": 30,
+    "weight": "1",
+    "category": "toys"
+  },
+  {
+    "_id": "5d725cb9c4ded7bcb480eaa1",
+    "title": "Souris pour chat",
+    "description": "Cette souris pour chat est la meilleure du marché",
+    "price": 30,
+    "weight": "1",
+    "category": "toys"
+  },
+  {
+    "_id": "5d725cd2c4ded7bcb480eaa2",
+    "title": "Brosse pour chat",
+    "description": "Cette brosse pour chat est la meilleure du marché",
+    "price": 30,
+    "weight": "1",
+    "category": "accessories"
+  },
+  {
+    "_id": "5d725cd2c4ded7bcb480eaa3",
+    "title": "Litière pour chat",
+    "description": "Cette litière pour chat est la meilleure du marché",
+    "price": 30,
+    "weight": "1",
+    "category": "utilities"
+  }
+]
