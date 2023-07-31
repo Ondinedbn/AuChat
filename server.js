@@ -13,6 +13,7 @@ connectDB();
 
 // Routes files
 const users = require("./routes/usersRoutes");
+const auth = require("./routes/authRoutes");
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Mount routers
 app.use("/api/v1/users", users);
+app.use("/api/v1/auth", auth);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
