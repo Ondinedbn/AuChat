@@ -11,6 +11,9 @@ dotenv.config({ path: "./config/config.env" });
 // Connect to database
 connectDB();
 
+// Routes files
+const users = require("./routes/usersRoutes");
+
 const app = express();
 
 var corsOptions = {
@@ -25,10 +28,8 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Bienvenue sur AuChat" });
-});
+// Mount routers
+app.use("/api/v1/users", users);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
