@@ -12,7 +12,9 @@ dotenv.config({ path: "./config/config.env" });
 // Connect to database
 connectDB();
 
-// Route files
+// Routes files
+const users = require("./routes/usersRoutes");
+const auth = require("./routes/authRoutes");
 const products = require("./routes/productsRoutes");
 
 const app = express();
@@ -37,6 +39,8 @@ app.get("/", (req, res) => {
 });
 
 // Mount routers
+app.use("/api/v1/users", users);
+app.use("/api/v1/auth", auth);
 app.use("/api/v1/products", products);
 
 // set port, listen for requests
