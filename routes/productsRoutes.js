@@ -8,9 +8,19 @@ const {
   deleteProduct,
 } = require("../controllers/productsController");
 
-// Create a route with express
-router.route("/").get(getProducts).post(createProduct);
+// Authorization with auth middleware
+const { protect, authorize } = require("../middlewares/auth");
 
-router.route("/:id").get(getProduct).put(updateProduct).delete(deleteProduct);
+// Create a route with express
+router
+  .route("/")
+  .get(getProducts)
+  .post(protect, authorize("admin"), createProduct);
+
+router
+  .route("/:id")
+  .get(getProduct)
+  .put(protect, authorize("admin"), updateProduct)
+  .delete(protect, authorize("admin"), deleteProduct);
 
 module.exports = router;
