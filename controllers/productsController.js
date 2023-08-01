@@ -149,6 +149,6 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: "true",
-    msg: `Deleted product ${product.name}`,
+    msg: `Deleted product ${product.title}`,
   });
 });

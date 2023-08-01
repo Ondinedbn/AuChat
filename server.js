@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const errorHandler = require("./middlewares/error");
+const cookieParser = require("cookie-parser");
 
 const connectDB = require("./config/db");
 
@@ -24,6 +25,9 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// Cookie parser
+app.use(cookieParser());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
