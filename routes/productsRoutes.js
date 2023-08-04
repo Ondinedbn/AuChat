@@ -6,12 +6,15 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
+  productPictureUpload,
 } = require("../controllers/productsController");
 
 // Authorization with auth middleware
 const { protect, authorize } = require("../middlewares/auth");
 
 // Create a route with express
+router.route("/:id/picture").put(productPictureUpload);
+
 router
   .route("/")
   .get(getProducts)
