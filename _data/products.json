@@ -3,40 +3,45 @@
     "_id": "5d725a4a7b292f5f8ceff789",
     "title": "Croquettes pour chat",
     "description": "Ces croquettes pour chat sont les meilleures du marché",
-    "price": 30,
+    "price": 6.9,
     "weight": "1",
-    "category": "food"
+    "category": "food",
+    "picture": "https://images.pexels.com/photos/2352276/pexels-photo-2352276.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   },
   {
     "_id": "5d725c84c4ded7bcb480eaa0",
     "title": "Jouet pour chat",
-    "description": "Ce jouet pour chat sont les meilleures du marché",
-    "price": 30,
+    "description": "Ce jouet pour chat est le meilleur du marché",
+    "price": 35.4,
     "weight": "1",
-    "category": "toys"
+    "category": "toys",
+    "picture": "https://images.unsplash.com/photo-1561669585-ea4b95fd4417?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
   },
   {
     "_id": "5d725cb9c4ded7bcb480eaa1",
     "title": "Souris pour chat",
     "description": "Cette souris pour chat est la meilleure du marché",
-    "price": 30,
+    "price": 9.9,
     "weight": "1",
-    "category": "toys"
+    "category": "toys",
+    "picture": "https://images.unsplash.com/photo-1516750105099-4b8a83e217ee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
   },
   {
     "_id": "5d725cd2c4ded7bcb480eaa2",
     "title": "Brosse pour chat",
     "description": "Cette brosse pour chat est la meilleure du marché",
-    "price": 30,
+    "price": 15.9,
     "weight": "1",
-    "category": "accessories"
+    "category": "accessories",
+    "picture": "https://images.unsplash.com/photo-1635859714497-32ae659dc82e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
   },
   {
     "_id": "5d725cd2c4ded7bcb480eaa3",
     "title": "Litière pour chat",
     "description": "Cette litière pour chat est la meilleure du marché",
-    "price": 30,
+    "price": 10.5,
     "weight": "1",
-    "category": "utilities"
+    "category": "utilities",
+    "picture": "https://live.staticflickr.com/2140/5739893162_143cab4186_k.jpg"
   }
 ]

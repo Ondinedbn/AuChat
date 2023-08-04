@@ -4,6 +4,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const errorHandler = require("./middlewares/error");
 const cookieParser = require("cookie-parser");
+const fileupload = require("express-fileupload");
+const path = require("path");
 
 const connectDB = require("./config/db");
 
@@ -35,18 +37,23 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(errorHandler);
-
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Bienvenue sur AuChat" });
 });
+
+// File upload
+app.use(fileupload());
+
+// Set static folder
+app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routers
 app.use("/api/v1/users", users);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/products", products);
 
+app.use(errorHandler);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
