@@ -2,6 +2,7 @@ const Product = require("../models/Product");
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middlewares/async");
 const path = require("path");
+const fs = require("fs");
 
 // @desc    Get all products
 // @route   GET /api/v1/products
@@ -216,18 +217,31 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
-  console.log(product);
-
   if (!product) {
     return res.status(400).json({ success: false });
   }
 
-  product.deleteOne();
+  // Check if picture exists
+  let file = fs.existsSync(
+    `${process.env.FILE_UPLOAD_PATH}/${product.picture}`
+  );
+  // Delete picture with prod_id
+  if (file) {
+    fs.unlink(
+      `${process.env.FILE_UPLOAD_PATH}/${product.picture}`,
+      function () {
+        console.log("File deleted");
+        product.deleteOne();
 
-  res.status(200).json({
-    success: "true",
-    msg: `Deleted product ${product.title}`,
-  });
+        res.status(200).json({
+          success: "true",
+          msg: `Deleted product ${product.title}`,
+        });
+      }
+    );
+  } else {
+    console.log("File not found");
+  }
 });
 
 // @desc    Upload picture for product
