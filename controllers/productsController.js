@@ -158,6 +158,46 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`Product not found with id ${req.params.id}`, 404)
     );
   }
+  if (req.files) {
+    const file = req.files.picture;
+
+    if (!file.name.startsWith("photo_")) {
+      // Make sure the image is a picture
+      if (!file.mimetype.startsWith("image")) {
+        return next(new ErrorResponse(`Please upload an image file`, 400));
+      }
+
+      // Check file size
+      if (file.size > process.env.MAX_FILE_UPLOAD) {
+        return next(
+          new ErrorResponse(
+            `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+            400
+          )
+        );
+      }
+
+      // Create custom filename
+      file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+
+      file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+        if (err) {
+          console.error(err);
+          return next(new ErrorResponse(`Problem with file upload`, 500));
+        }
+      });
+
+      product = await Product.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { picture: file.name },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    }
+  }
 
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
