@@ -115,14 +115,14 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 
   // Make sure the image is a picture
   if (!file.mimetype.startsWith("image")) {
-    return next(new ErrorResponse(`Please upload an image file`, 400));
+    return next(new ErrorResponse(`Merci de choisir une image`, 400));
   }
 
   // Check file size
   if (file.size > process.env.MAX_FILE_UPLOAD) {
     return next(
       new ErrorResponse(
-        `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+        `Le poids du fichier doit être inférieur à ${process.env.MAX_FILE_UPLOAD}`,
         400
       )
     );
@@ -161,43 +161,40 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
   }
   if (req.files) {
     const file = req.files.picture;
+    // Make sure the image is a picture
+    if (!file.mimetype.startsWith("image")) {
+      return next(new ErrorResponse(`Merci de choisir une image`, 400));
+    }
 
-    if (!file.name.startsWith("photo_")) {
-      // Make sure the image is a picture
-      if (!file.mimetype.startsWith("image")) {
-        return next(new ErrorResponse(`Please upload an image file`, 400));
-      }
-
-      // Check file size
-      if (file.size > process.env.MAX_FILE_UPLOAD) {
-        return next(
-          new ErrorResponse(
-            `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
-            400
-          )
-        );
-      }
-
-      // Create custom filename
-      file.name = `photo_${product._id}${path.parse(file.name).ext}`;
-
-      file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
-        if (err) {
-          console.error(err);
-          return next(new ErrorResponse(`Problem with file upload`, 500));
-        }
-      });
-
-      product = await Product.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { picture: file.name },
-        {
-          new: true,
-          runValidators: true,
-        }
+    // Check file size
+    if (file.size > process.env.MAX_FILE_UPLOAD) {
+      return next(
+        new ErrorResponse(
+          `Le poids du fichier doit être inférieur à ${process.env.MAX_FILE_UPLOAD}`,
+          400
+        )
       );
     }
+
+    // Create custom filename
+    file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+      if (err) {
+        console.error(err);
+        return next(new ErrorResponse(`Problem with file upload`, 500));
+      }
+    });
+
+    product = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { picture: file.name },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
   }
 
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
