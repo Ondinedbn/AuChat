@@ -129,6 +129,7 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
   }
 
   const product = await Product.create(req.body);
+  console.log(product);
 
   // Create custom filename
   file.name = `photo_${product._id}${path.parse(file.name).ext}`;
