@@ -4,7 +4,7 @@
   "description": "ECommerce Project with NodeJS rest API and Vue",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "nodemon server"
   },
   "author": "Ondine, Thomas",
@@ -19,8 +19,10 @@
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "fs": "^0.0.1-security",
+    "jest": "^29.6.3",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.1",
+    "node-mocks-http": "^1.13.0",
     "seeder": "^0.2.4"
   },
   "devDependencies": {
