@@ -104,14 +104,11 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/products/
 // @access  Private
 exports.createProduct = asyncHandler(async (req, res, next) => {
-  console.log(req.files);
   if (!req.files) {
     return next(new ErrorResponse(`Please upload a file`, 400));
   }
 
   const file = req.files.picture;
-
-  console.log(file);
 
   // Make sure the image is a picture
   if (!file.mimetype.startsWith("image")) {
@@ -129,10 +126,11 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
   }
 
   const product = await Product.create(req.body);
-  console.log(product);
 
   // Create custom filename
   file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+
+  // file.name = `photo_${path.parse(file.name).ext}`;
 
   file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
     if (err) {
@@ -155,13 +153,27 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateProduct = asyncHandler(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
+
+  // Check if picture exists
+  let file = fs.existsSync(
+    `${process.env.FILE_UPLOAD_PATH}/${product.picture}`
+  );
+  // Delete picture with prod_id
+  if (file) {
+    fs.unlink(
+      `${process.env.FILE_UPLOAD_PATH}/${product.picture}`,
+      function () {
+        console.log("Picture deleted");
+      }
+    );
+  }
   if (!product) {
     return next(
       new ErrorResponse(`Product not found with id ${req.params.id}`, 404)
     );
   }
   if (req.files) {
-    const file = req.files.picture;
+    file = req.files.picture;
     // Make sure the image is a picture
     if (!file.mimetype.startsWith("image")) {
       return next(new ErrorResponse(`Merci de choisir une image`, 400));
@@ -177,8 +189,11 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
       );
     }
 
+    // Create a date
+    const date = Date.now();
+
     // Create custom filename
-    file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+    file.name = `photo_${product._id}${date}${path.parse(file.name).ext}` + "";
 
     file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
       if (err) {
@@ -187,15 +202,22 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
       }
     });
 
-    product = await Product.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { picture: file.name },
-      {
+    try {
+      const data = {
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        weight: req.body.weight,
+        category: req.body.category,
+        picture: file.name,
+      };
+      product = await Product.findByIdAndUpdate(req.params.id, data, {
         new: true,
         runValidators: true,
-      }
-    );
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -228,18 +250,15 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
     fs.unlink(
       `${process.env.FILE_UPLOAD_PATH}/${product.picture}`,
       function () {
-        console.log("File deleted");
-        product.deleteOne();
-
-        res.status(200).json({
-          success: "true",
-          msg: `Deleted product ${product.title}`,
-        });
+        console.log("Picture deleted");
       }
     );
-  } else {
-    console.log("File not found");
   }
+  product.deleteOne();
+  res.status(200).json({
+    success: "true",
+    msg: `Deleted product ${product.title}`,
+  });
 });
 
 // @desc    Upload picture for product
@@ -259,7 +278,6 @@ exports.productPictureUpload = asyncHandler(async (req, res, next) => {
   }
 
   const file = req.files.file;
-  console.log(file);
 
   // Make sure the image is a picture
   if (!file.mimetype.startsWith("image")) {
@@ -292,9 +310,4 @@ exports.productPictureUpload = asyncHandler(async (req, res, next) => {
       data: product,
     });
   });
-
-  // product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-  //   new: true,
-  //   runValidators: true,
-  // });
 });

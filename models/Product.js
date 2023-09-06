@@ -24,7 +24,7 @@ const ProductSchema = new mongoose.Schema({
     enum: ["toys", "food", "accessories", "utilities"],
   },
   picture: {
-    type: String,
+    type: Object,
   },
   createdAt: {
     type: Date,
